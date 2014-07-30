@@ -19,24 +19,28 @@ describe ConnectionDiagnostic do
 
 	it "should connect once to the client" do
 		expect(@client).to receive(:connect)
-		@connection.perform_diagnostic(@client)
+		@connection.perform_diagnostic
 	end
 
 	it "should check if connection was successful then online status = true" do
 		allow(@client).to receive(:connect).and_return(true)
-		@connection.perform_diagnostic(@client)
+		@connection.perform_diagnostic
 		expect(@connection.status).to eq(true)
 	end
 
 	it "should check if connection was not successful then try to connect again" do
 		allow(@client).to receive(:connect).and_return(false)
 		expect(@client).to receive(:connect).at_most(3).times
-		@connection.perform_diagnostic(@client)
+		@connection.perform_diagnostic
 	end
 
 	it "should check if second connection was successful online status = true" do
 		allow(@client).to receive(:connect).and_return(false, true).ordered
-		@connection.perform_diagnostic(@client)
+		@connection.perform_diagnostic
 		expect(@connection.status).to eq(true)
+	end
+
+	it "if during the connection we have an exception " do
+
 	end
 end

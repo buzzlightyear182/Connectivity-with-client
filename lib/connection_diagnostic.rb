@@ -15,14 +15,16 @@ class ConnectionDiagnostic
 
   def initialize client
   	@status = client.disconnect
+    @client = client
+
   end
 
-  def perform_diagnostic client
+  def perform_diagnostic
   	counter = 1
   	while @status == false
-			@status = client.connect
+			@status = @client.connect
 			counter += 1
-			return @status = client.connect if counter == 3
+			return @status = @client.connect if counter == 3
 		end
   end
 
